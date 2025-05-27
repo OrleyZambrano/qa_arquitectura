@@ -77,14 +77,14 @@ class ValidationUtils {
         }
 
         const trimmedEmail = email.trim();
-        
+
         if (trimmedEmail.length === 0) {
             throw new Error('Email no puede estar vacío');
         }
 
         // Patrón más restrictivo para email
         const emailPattern = /^[a-zA-Z0-9]([a-zA-Z0-9._-]*[a-zA-Z0-9])?@[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z]{2,})+$/;
-        
+
         if (!emailPattern.test(trimmedEmail)) {
             throw new Error('Formato de email inválido');
         }
@@ -95,7 +95,7 @@ class ValidationUtils {
         }
 
         const [localPart, domainPart] = trimmedEmail.split('@');
-        
+
         if (localPart.length > 64) {
             throw new Error('Parte local del email demasiado larga');
         }
@@ -162,7 +162,7 @@ let operator = null;
 let waitingForOperand = false;
 
 // Inicialización de la aplicación
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeApp();
     updateCalculatorDisplay();
 });
@@ -175,11 +175,11 @@ function initializeApp() {
     navButtons.forEach(button => {
         button.addEventListener('click', () => {
             const targetSection = button.getAttribute('data-section');
-            
+
             // Remover clase activa de todos los botones y secciones
             navButtons.forEach(btn => btn.classList.remove('active'));
             sections.forEach(section => section.classList.remove('active'));
-            
+
             // Activar botón y sección correspondiente
             button.classList.add('active');
             document.getElementById(targetSection).classList.add('active');
@@ -206,11 +206,11 @@ function setupRealTimeValidation() {
     // Required fields validation
     const nameInput = document.getElementById('required-name');
     const surnameInput = document.getElementById('required-surname');
-    
+
     if (nameInput) {
         nameInput.addEventListener('input', (e) => validateRequiredReal('name', e.target.value));
     }
-    
+
     if (surnameInput) {
         surnameInput.addEventListener('input', (e) => validateRequiredReal('surname', e.target.value));
     }
@@ -221,11 +221,11 @@ function setupRealTimeValidation() {
 function updateCalculatorDisplay() {
     const display = document.getElementById('calc-display');
     const history = document.getElementById('calc-history');
-    
+
     if (display) {
         display.textContent = currentInput;
     }
-    
+
     if (history && previousInput && operator) {
         history.textContent = `${previousInput} ${getOperatorSymbol(operator)}`;
     } else if (history) {
@@ -531,7 +531,7 @@ function runTests() {
             • Total: <strong>39/39 tests passed</strong><br>
             • Cobertura: <strong>85%</strong>
         `, 'success');
-        
+
         // Actualizar métricas
         document.getElementById('test-count').textContent = '39';
         document.getElementById('test-coverage').textContent = '85%';
@@ -550,7 +550,7 @@ function runLinting() {
             • Complejidad ciclomática: 2.1<br>
             • ✓ Código cumple con estándares de calidad
         `, 'success');
-        
+
         document.getElementById('eslint-issues').textContent = '0';
         document.getElementById('complexity').textContent = '2.1';
     }, 1500);
@@ -604,9 +604,9 @@ function showNotification(message, type = 'info') {
         animation: slideIn 0.3s ease-out;
     `;
     notification.textContent = message;
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         notification.style.animation = 'slideOut 0.3s ease-in';
         setTimeout(() => {
@@ -632,11 +632,11 @@ style.textContent = `
 document.head.appendChild(style);
 
 // Función para manejar teclado en calculadora
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', function (event) {
     const activeSection = document.querySelector('.section.active');
     if (activeSection && activeSection.id === 'calculator') {
         const key = event.key;
-        
+
         if ('0123456789'.includes(key)) {
             appendNumber(key);
         } else if (key === '.') {
