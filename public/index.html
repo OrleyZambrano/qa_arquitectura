@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Calidad de Software - Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-cogs"></i> Proyecto Calidad de Software</h1>
+            <p>Demostración interactiva de herramientas de calidad</p>
+        </div>
+    </header>
+
+    <nav class="navigation">
+        <div class="container">
+            <button class="nav-btn active" data-section="calculator">
+                <i class="fas fa-calculator"></i> Calculadora
+            </button>
+            <button class="nav-btn" data-section="validation">
+                <i class="fas fa-shield-alt"></i> Validaciones
+            </button>
+            <button class="nav-btn" data-section="quality">
+                <i class="fas fa-chart-line"></i> Métricas
+            </button>
+            <button class="nav-btn" data-section="tools">
+                <i class="fas fa-tools"></i> Herramientas
+            </button>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            <!-- Sección Calculadora -->
+            <section id="calculator" class="section active">
+                <div class="section-header">
+                    <h2><i class="fas fa-calculator"></i> Calculadora Matemática</h2>
+                    <p>Operaciones matemáticas con validación y manejo de errores</p>
+                </div>
+                
+                <div class="cards-grid">
+                    <!-- Calculadora Visual -->
+                    <div class="card">
+                        <h3><i class="fas fa-calculator"></i> Calculadora Visual</h3>
+                        <div class="calculator-display">
+                            <div class="display-history" id="calc-history"></div>
+                            <div class="display-current" id="calc-display">0</div>
+                        </div>
+                        <div class="calculator-buttons">
+                            <button class="calc-btn clear" onclick="clearCalculator()">C</button>
+                            <button class="calc-btn clear" onclick="clearEntry()">CE</button>
+                            <button class="calc-btn operator" onclick="backspace()">⌫</button>
+                            <button class="calc-btn operator" onclick="appendOperator('/')">/</button>
+                            
+                            <button class="calc-btn" onclick="appendNumber('7')">7</button>
+                            <button class="calc-btn" onclick="appendNumber('8')">8</button>
+                            <button class="calc-btn" onclick="appendNumber('9')">9</button>
+                            <button class="calc-btn operator" onclick="appendOperator('*')">×</button>
+                            
+                            <button class="calc-btn" onclick="appendNumber('4')">4</button>
+                            <button class="calc-btn" onclick="appendNumber('5')">5</button>
+                            <button class="calc-btn" onclick="appendNumber('6')">6</button>
+                            <button class="calc-btn operator" onclick="appendOperator('-')">-</button>
+                            
+                            <button class="calc-btn" onclick="appendNumber('1')">1</button>
+                            <button class="calc-btn" onclick="appendNumber('2')">2</button>
+                            <button class="calc-btn" onclick="appendNumber('3')">3</button>
+                            <button class="calc-btn operator" onclick="appendOperator('+')">+</button>
+                            
+                            <button class="calc-btn" onclick="appendNumber('0')" style="grid-column: span 2;">0</button>
+                            <button class="calc-btn" onclick="appendNumber('.')">.</button>
+                            <button class="calc-btn equals" onclick="calculate()">=</button>
+                        </div>
+                    </div>
+
+                    <!-- Operaciones Básicas -->
+                    <div class="card">
+                        <h3><i class="fas fa-plus"></i> Operaciones Básicas</h3>
+                        <div class="input-group">
+                            <div class="input-row">
+                                <input type="number" id="num1" placeholder="Primer número" step="any">
+                                <select id="operation">
+                                    <option value="add">Suma (+)</option>
+                                    <option value="subtract">Resta (-)</option>
+                                    <option value="multiply">Multiplicación (×)</option>
+                                    <option value="divide">División (÷)</option>
+                                </select>
+                                <input type="number" id="num2" placeholder="Segundo número" step="any">
+                            </div>
+                            <button class="btn" onclick="performBasicOperation()">
+                                <i class="fas fa-calculator"></i> Calcular
+                            </button>
+                            <div class="result" id="basic-result"></div>
+                        </div>
+                    </div>
+
+                    <!-- Operaciones Avanzadas -->
+                    <div class="card">
+                        <h3><i class="fas fa-superscript"></i> Operaciones Avanzadas</h3>
+                        <div class="input-group">
+                            <label>Potencia:</label>
+                            <div class="input-row">
+                                <input type="number" id="power-base" placeholder="Base" step="any">
+                                <span style="align-self: center;">^</span>
+                                <input type="number" id="power-exp" placeholder="Exponente" step="any">
+                            </div>
+                            <button class="btn" onclick="calculatePower()">
+                                <i class="fas fa-superscript"></i> Calcular Potencia
+                            </button>
+                            <div class="result" id="power-result"></div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Raíz Cuadrada:</label>
+                            <input type="number" id="sqrt-num" placeholder="Número" step="any" min="0">
+                            <button class="btn" onclick="calculateSqrt()">
+                                <i class="fas fa-square-root-alt"></i> Calcular Raíz
+                            </button>
+                            <div class="result" id="sqrt-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Validaciones -->
+            <section id="validation" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-shield-alt"></i> Sistema de Validaciones</h2>
+                    <p>Validación de datos con retroalimentación en tiempo real</p>
+                </div>
+
+                <div class="cards-grid">
+                    <!-- Validación de Email -->
+                    <div class="card">
+                        <h3><i class="fas fa-envelope"></i> Validación de Email</h3>
+                        <div class="input-group">
+                            <input type="email" id="email-input" placeholder="Ingresa tu email" 
+                                   oninput="validateEmailReal(this.value)">
+                            <div class="validation-message" id="email-validation"></div>
+                            <button class="btn" onclick="validateEmail()">
+                                <i class="fas fa-check"></i> Validar Email
+                            </button>
+                            <div class="result" id="email-result"></div>
+                        </div>
+                    </div>
+
+                    <!-- Validación de Contraseña -->
+                    <div class="card">
+                        <h3><i class="fas fa-lock"></i> Validación de Contraseña</h3>
+                        <div class="input-group">
+                            <input type="password" id="password-input" placeholder="Ingresa tu contraseña"
+                                   oninput="validatePasswordReal(this.value)">
+                            <div class="validation-message" id="password-validation"></div>
+                            
+                            <div style="margin-top: 1rem;">
+                                <h4>Criterios de seguridad:</h4>
+                                <ul id="password-criteria" style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                    <li id="length-check">Mínimo 8 caracteres</li>
+                                    <li id="uppercase-check">Al menos 1 mayúscula</li>
+                                    <li id="lowercase-check">Al menos 1 minúscula</li>
+                                    <li id="number-check">Al menos 1 número</li>
+                                    <li id="special-check">Al menos 1 carácter especial</li>
+                                </ul>
+                            </div>
+                            
+                            <button class="btn" onclick="validatePassword()">
+                                <i class="fas fa-shield-alt"></i> Validar Contraseña
+                            </button>
+                            <div class="result" id="password-result"></div>
+                        </div>
+                    </div>
+
+                    <!-- Validación de Campos Requeridos -->
+                    <div class="card">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Campos Requeridos</h3>
+                        <div class="input-group">
+                            <input type="text" id="required-name" placeholder="Nombre (requerido)"
+                                   oninput="validateRequiredReal('name', this.value)">
+                            <div class="validation-message" id="name-validation"></div>
+                            
+                            <input type="text" id="required-surname" placeholder="Apellido (requerido)"
+                                   oninput="validateRequiredReal('surname', this.value)">
+                            <div class="validation-message" id="surname-validation"></div>
+                            
+                            <input type="text" id="required-optional" placeholder="Campo opcional">
+                            
+                            <button class="btn" onclick="validateAllRequired()">
+                                <i class="fas fa-check-double"></i> Validar Formulario
+                            </button>
+                            <div class="result" id="required-result"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Métricas -->
+            <section id="quality" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> Métricas de Calidad</h2>
+                    <p>Indicadores en tiempo real del proyecto</p>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="test-coverage">85%</div>
+                        <div class="metric-label">Cobertura de Tests</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="test-count">39</div>
+                        <div class="metric-label">Tests Ejecutados</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="eslint-issues">0</div>
+                        <div class="metric-label">Issues ESLint</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="complexity">2.1</div>
+                        <div class="metric-label">Complejidad Promedio</div>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3><i class="fas fa-bug"></i> Estado de Tests</h3>
+                        <button class="btn" onclick="runTests()">
+                            <i class="fas fa-play"></i> Ejecutar Tests
+                        </button>
+                        <div class="result" id="test-results"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-code"></i> Análisis de Código</h3>
+                        <button class="btn" onclick="runLinting()">
+                            <i class="fas fa-search"></i> Analizar Código
+                        </button>
+                        <div class="result" id="lint-results"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-paint-brush"></i> Formateo de Código</h3>
+                        <button class="btn" onclick="formatCode()">
+                            <i class="fas fa-magic"></i> Formatear Código
+                        </button>
+                        <div class="result" id="format-results"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Herramientas -->
+            <section id="tools" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tools"></i> Herramientas de Calidad</h2>
+                    <p>Stack tecnológico y herramientas configuradas</p>
+                </div>
+
+                <div class="tools-list">
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h4>TypeScript + Node.js</h4>
+                            <p>Lenguaje principal con tipado estático para mayor robustez</p>
+                            <span class="tool-status active">
+                                <i class="fas fa-check-circle"></i> Configurado
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h4>Jest Testing Framework</h4>
+                            <p>Framework de testing con cobertura de código y mocking</p>
+                            <span class="tool-status active">
+                                <i class="fas fa-check-circle"></i> 39 tests configurados
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h4>ESLint</h4>
+                            <p>Análisis estático de código para detectar problemas y patrones</p>
+                            <span class="tool-status active">
+                                <i class="fas fa-check-circle"></i> Reglas configuradas
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h4>Prettier</h4>
+                            <p>Formateador automático de código para consistencia</p>
+                            <span class="tool-status active">
+                                <i class="fas fa-check-circle"></i> Auto-formateo activado
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fab fa-git-alt"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h4>Husky + Lint-staged</h4>
+                            <p>Git hooks para validación automática en commits</p>
+                            <span class="tool-status active">
+                                <i class="fas fa-check-circle"></i> Pre-commit hooks activos
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="tool-item">
+                        <div class="tool-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="tool-content">
+                            <h4>SonarQube</h4>
+                            <p>Análisis de calidad de código y detección de vulnerabilidades</p>
+                            <span class="tool-status inactive">
+                                <i class="fas fa-cog"></i> Configurado (requiere servidor)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <h3><i class="fas fa-download"></i> Comandos Útiles</h3>
+                    <div style="background: #1e293b; color: white; padding: 1rem; border-radius: 0.5rem; font-family: monospace;">
+                        <div>npm test &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Ejecutar tests</div>
+                        <div>npm run lint &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Análisis con ESLint</div>
+                        <div>npm run format &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Formatear con Prettier</div>
+                        <div>npm run build &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Compilar TypeScript</div>
+                        <div>npm start &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Ejecutar aplicación</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer style="background: var(--surface-color); border-top: 1px solid var(--border-color); padding: 2rem 0; margin-top: 3rem; text-align: center; color: var(--text-secondary);">
+        <div class="container">
+            <p><i class="fas fa-code"></i> Proyecto de Demostración - Calidad de Software</p>
+            <p>Implementación de mejores prácticas y herramientas de QA</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
+                                <option value="subtract">Resta (-)</option>
+                                <option value="multiply">Multiplicación (×)</option>
+                                <option value="divide">División (÷)</option>
+                            </select>
+                            <input type="number" id="num2" placeholder="Segundo número" step="any">
+                        </div>
+                        <button class="btn btn-primary" onclick="performBasicOperation()">
+                            <i class="fas fa-equals"></i> Calcular
+                        </button>
+                        <div id="basicResult" class="result"></div>
+                    </div>
+
+                    <!-- Operaciones Avanzadas -->
+                    <div class="card">
+                        <h3><i class="fas fa-superscript"></i> Operaciones Avanzadas</h3>
+                        <div class="input-group">
+                            <div class="advanced-operation">
+                                <label>Potencia:</label>
+                                <input type="number" id="powerBase" placeholder="Base" step="any">
+                                <span>^</span>
+                                <input type="number" id="powerExp" placeholder="Exponente" step="any">
+                                <button class="btn btn-secondary" onclick="performPower()">
+                                    <i class="fas fa-calculator"></i>
+                                </button>
+                            </div>
+                            <div class="advanced-operation">
+                                <label>Raíz Cuadrada:</label>
+                                <input type="number" id="sqrtValue" placeholder="Número" step="any">
+                                <button class="btn btn-secondary" onclick="performSqrt()">
+                                    <i class="fas fa-square-root-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="advancedResult" class="result"></div>
+                    </div>
+
+                    <!-- Historial -->
+                    <div class="card">
+                        <h3><i class="fas fa-history"></i> Historial de Operaciones</h3>
+                        <div id="calculatorHistory" class="history">
+                            <p class="empty-state">No hay operaciones realizadas</p>
+                        </div>
+                        <button class="btn btn-danger" onclick="clearHistory()">
+                            <i class="fas fa-trash"></i> Limpiar Historial
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Validaciones -->
+            <section id="validation" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-shield-alt"></i> Sistema de Validaciones</h2>
+                    <p>Validación de datos con retroalimentación en tiempo real</p>
+                </div>
+
+                <div class="cards-grid">
+                    <!-- Validación de Email -->
+                    <div class="card">
+                        <h3><i class="fas fa-envelope"></i> Validación de Email</h3>
+                        <div class="input-group">
+                            <input type="email" id="emailInput" placeholder="Ingresa tu email">
+                            <button class="btn btn-primary" onclick="validateEmail()">
+                                <i class="fas fa-check"></i> Validar
+                            </button>
+                        </div>
+                        <div id="emailResult" class="result"></div>
+                        <div class="validation-rules">
+                            <h4>Reglas de validación:</h4>
+                            <ul>
+                                <li>Debe tener formato válido (user@domain.com)</li>
+                                <li>No puede contener espacios</li>
+                                <li>No puede tener puntos consecutivos</li>
+                                <li>Dominio debe tener al menos 2 caracteres</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Validación de Contraseña -->
+                    <div class="card">
+                        <h3><i class="fas fa-lock"></i> Validación de Contraseña</h3>
+                        <div class="input-group">
+                            <div class="password-container">
+                                <input type="password" id="passwordInput" placeholder="Ingresa tu contraseña">
+                                <button type="button" class="password-toggle" onclick="togglePassword()">
+                                    <i class="fas fa-eye" id="passwordIcon"></i>
+                                </button>
+                            </div>
+                            <button class="btn btn-primary" onclick="validatePassword()">
+                                <i class="fas fa-shield-alt"></i> Validar
+                            </button>
+                        </div>
+                        <div id="passwordResult" class="result"></div>
+                        <div class="password-requirements">
+                            <h4>Requisitos de seguridad:</h4>
+                            <ul id="passwordChecklist">
+                                <li class="requirement" data-rule="length">
+                                    <i class="fas fa-times"></i> Al menos 8 caracteres
+                                </li>
+                                <li class="requirement" data-rule="uppercase">
+                                    <i class="fas fa-times"></i> Una letra mayúscula
+                                </li>
+                                <li class="requirement" data-rule="lowercase">
+                                    <i class="fas fa-times"></i> Una letra minúscula
+                                </li>
+                                <li class="requirement" data-rule="number">
+                                    <i class="fas fa-times"></i> Un número
+                                </li>
+                                <li class="requirement" data-rule="special">
+                                    <i class="fas fa-times"></i> Un carácter especial
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Validación de Campos Requeridos -->
+                    <div class="card">
+                        <h3><i class="fas fa-edit"></i> Validación de Campos</h3>
+                        <div class="input-group">
+                            <input type="text" id="requiredField" placeholder="Campo requerido">
+                            <input type="text" id="fieldName" placeholder="Nombre del campo" value="Nombre">
+                            <button class="btn btn-primary" onclick="validateRequiredField()">
+                                <i class="fas fa-check-circle"></i> Validar
+                            </button>
+                        </div>
+                        <div id="requiredFieldResult" class="result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Métricas -->
+            <section id="quality" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-line"></i> Métricas de Calidad</h2>
+                    <p>Indicadores de calidad del software implementado</p>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Tests Unitarios</h3>
+                            <div class="metric-value">39</div>
+                            <div class="metric-label">Tests Pasando</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Cobertura</h3>
+                            <div class="metric-value">65%</div>
+                            <div class="metric-label">Código Cubierto</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Líneas de Código</h3>
+                            <div class="metric-value">~300</div>
+                            <div class="metric-label">LOC Total</div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>Errores ESLint</h3>
+                            <div class="metric-value">0</div>
+                            <div class="metric-label">Errores Activos</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quality-details">
+                    <div class="card">
+                        <h3><i class="fas fa-clipboard-check"></i> Checklist de Calidad</h3>
+                        <div class="checklist">
+                            <div class="checklist-item completed">
+                                <i class="fas fa-check-circle"></i>
+                                <span>TypeScript configurado</span>
+                            </div>
+                            <div class="checklist-item completed">
+                                <i class="fas fa-check-circle"></i>
+                                <span>ESLint configurado</span>
+                            </div>
+                            <div class="checklist-item completed">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Prettier configurado</span>
+                            </div>
+                            <div class="checklist-item completed">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Tests unitarios implementados</span>
+                            </div>
+                            <div class="checklist-item completed">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Git hooks configurados</span>
+                            </div>
+                            <div class="checklist-item completed">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Documentación completa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Herramientas -->
+            <section id="tools" class="section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tools"></i> Herramientas Implementadas</h2>
+                    <p>Stack tecnológico y herramientas de calidad</p>
+                </div>
+
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <h3>TypeScript</h3>
+                        <p>Tipado estático para JavaScript</p>
+                        <div class="tool-features">
+                            <span class="feature">Detección temprana de errores</span>
+                            <span class="feature">Mejor autocompletado</span>
+                            <span class="feature">Refactoring seguro</span>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>ESLint</h3>
+                        <p>Análisis estático de código</p>
+                        <div class="tool-features">
+                            <span class="feature">Detección de problemas</span>
+                            <span class="feature">Reglas personalizables</span>
+                            <span class="feature">Corrección automática</span>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3>Prettier</h3>
+                        <p>Formateo automático de código</p>
+                        <div class="tool-features">
+                            <span class="feature">Formateo consistente</span>
+                            <span class="feature">Integración con editores</span>
+                            <span class="feature">Configuración simple</span>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <h3>Jest</h3>
+                        <p>Framework de testing</p>
+                        <div class="tool-features">
+                            <span class="feature">Tests unitarios</span>
+                            <span class="feature">Cobertura de código</span>
+                            <span class="feature">Mocking automático</span>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fab fa-git-alt"></i>
+                        </div>
+                        <h3>Husky</h3>
+                        <p>Git hooks automatizados</p>
+                        <div class="tool-features">
+                            <span class="feature">Pre-commit hooks</span>
+                            <span class="feature">Validación automática</span>
+                            <span class="feature">Prevención de errores</span>
+                        </div>
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <h3>Lint-staged</h3>
+                        <p>Linting de archivos modificados</p>
+                        <div class="tool-features">
+                            <span class="feature">Solo archivos staged</span>
+                            <span class="feature">Formateo automático</span>
+                            <span class="feature">Performance optimizada</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Proyecto Calidad de Software. Ejemplo educativo de herramientas de calidad.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
