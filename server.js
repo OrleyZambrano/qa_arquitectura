@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-app.disable('x-powered-by'); //solución para evitar el header x-powered-by
+//app.disable('x-powered-by'); //solución para evitar el header x-powered-by
 const PORT = process.env.PORT || 3000;
 
 // Servir archivos estáticos desde la carpeta public
